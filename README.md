@@ -2,29 +2,35 @@
 
 ### A modern desktop application for managing library resources, built with Python and PyQt5.
 
-### Libora is designed to simplify management by providing an intuitive interface for organizing books, authors, publishers, translators, genres, languages and other related resources. The application focuses on speed, usability and a clean user experience for librarians and administrators.
+Librora is a desktop application designed to make library management simple and efficient. It provides an intuitive interface for organizing books, authors, publishers, translators, genres, languages, and other library resources in one place. With a clean design and a straightforward workflow, Librora helps librarians and administrators manage their collections quickly and with ease.
+
+
 
 # Menu Navigation
 
-### The menu bar provides access.
+Navigate between different sections of the application through a simple and organized menu. Each menu provides quick access to the available actions for managing your library resources.
+
 
 # Main Workspace
 
-### Clean and distraction-free workspace. The main content area dynamically displays the selected module providing an focused user experience.
+The main workspace is designed to keep your attention on the task at hand. It dynamically updates based on the selected module, providing a clean and distraction-free environment for managing your data.
+
 
 # Entity Management
 
-### Manage entities through a list with quick access to add, edit and organize of each entities records.
+Manage books, authors, publishers, translators, genres, languages, and other library resources from dedicated sections. Each entity can be viewed, searched, added, edited, or removed through an intuitive interface.
+
 
 # Add Entity Dialog
 
-### dialog, for creating new entity records with essential information.
+Create new records using a simple dialog that collects all the essential information while keeping the process fast and easy.
 
-# ## Features
 
-- Organize your library with dedicated sections for books, authors, publishers, translators, genres, and languages.
-- Create, update, and delete records through a clean and user-friendly interface.
-- Search and browse library data quickly and efficiently.
-- Store all information in a lightweight SQLite database.
-- Modern desktop experience powered by Python and PyQt5.
 
+#  Features
+
+- Organize books, authors, publishers, translators, genres, languages, and other library resources in one place.
+- Quickly add, edit, and remove records through a clean and intuitive interface.
+- Search and browse your library data with ease.
+- Store all information locally using a lightweight SQLite database.
+- Enjoy a modern desktop experience built with Python and PyQt5.
