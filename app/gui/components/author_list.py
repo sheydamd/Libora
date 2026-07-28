@@ -23,18 +23,19 @@ class AuthorsWidget(QWidget):
 
         self.layout = QVBoxLayout(self)
 
-        # Search + Add Button
+        # Search
         search_layout = QHBoxLayout()
 
         self.search_box = QLineEdit()
-        
+        self.search_box.setPlaceholderText("Search author...")
+        self.search_box.textChanged.connect(self.search_authors)
 
         add_btn = QPushButton("+")
 
-
+        
 
         search_layout.addWidget(self.search_box)
-        search_layout.addWidget(add_btn)
+      
 
         self.layout.addLayout(search_layout)
 
@@ -82,3 +83,24 @@ class AuthorsWidget(QWidget):
 
         self.list_layout.addStretch()
 
+
+    def search_authors(self, text):
+
+        text = text.lower().strip()
+
+        if not text:
+            self.show_authors(self.all_authors)
+            return
+
+
+        filtered = [
+            author
+            for author in self.all_authors
+            if (
+                author.name.lower().startswith(text)
+                or author.last_name.lower().startswith(text)
+                or f"{author.name} {author.last_name}".lower().startswith(text)
+            )
+        ]
+
+        self.show_authors(filtered)

@@ -16,7 +16,13 @@ from PyQt5.QtWidgets import (
     QAction
 )
 from app.gui.components.author_list import AuthorsWidget
-
+from app.gui.components.publisher_list import PublishersWidget
+from app.gui.components.translator_list import TranslatorsWidget
+from app.gui.components.esrb_list import EsrbsWidget
+from app.gui.components.genre_list import GenresWidget
+from app.gui.components.resource_list import ResourcesWidget
+from app.gui.components.language_list import LanguagesWidget
+from app.gui.components.book_list import BooksWidget
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
 
@@ -118,7 +124,13 @@ class MainWindow(QMainWindow):
         icons_layout.addWidget(self.icon_genre)
         icons_layout.addStretch()
         self.icon_author.clicked.connect(self.open_authors)
-       
+        self.icon_publish.clicked.connect(self.open_publishers)
+        self.icon_translate.clicked.connect(self.open_translators)
+        self.icon_esrb.clicked.connect(self.open_esrbs)
+        self.icon_genre.clicked.connect(self.open_genres)
+        self.icon_language.clicked.connect(self.open_languages)
+        self.icon_resource.clicked.connect(self.open_resources)
+        self.icon_books.clicked.connect(self.open_books)
     
 
         # ============ LEFT MENU ============
@@ -165,11 +177,168 @@ class MainWindow(QMainWindow):
             authors_widget
         )
     
+    def open_publishers(self):
+
+        # پاک کردن پنل وسط
+        layout = self.left_panel.layout()
+
+
+        while layout.count():
+
+            item = layout.takeAt(0)
+
+            if item.widget():
+                item.widget().deleteLater()
+
+
+
+        # ساخت کامپوننت
+        publishers_widget = PublishersWidget()
+
+
+        layout.addWidget(
+            publishers_widget
+        )
     
 
-    
+    def open_translators(self):
 
-   
+        # پاک کردن پنل وسط
+        layout = self.left_panel.layout()
+
+
+        while layout.count():
+
+            item = layout.takeAt(0)
+
+            if item.widget():
+                item.widget().deleteLater()
+
+
+
+        # ساخت کامپوننت
+        translators_widget = TranslatorsWidget()
+
+
+        layout.addWidget(
+            translators_widget
+        )
+
+    def open_esrbs(self):
+        layout = self.left_panel.layout()
+
+
+        while layout.count():
+
+            item = layout.takeAt(0)
+
+            widget = item.widget()
+
+            if widget:
+                widget.deleteLater()
+
+
+
+        esrb_widget = EsrbsWidget()
+
+
+        layout.addWidget(
+            esrb_widget
+        )
+
+    def open_genres(self):
+        layout = self.left_panel.layout()
+
+
+        while layout.count():
+
+            item = layout.takeAt(0)
+
+            widget = item.widget()
+
+            if widget:
+                widget.deleteLater()
+
+
+
+        resource_widget = GenresWidget()
+
+
+        layout.addWidget(
+            resource_widget
+        )
+
+    def open_resources(self):
+        layout = self.left_panel.layout()
+
+
+        while layout.count():
+
+            item = layout.takeAt(0)
+
+            widget = item.widget()
+
+            if widget:
+                widget.deleteLater()
+
+
+
+        resource_widget = ResourcesWidget()
+
+
+        layout.addWidget(
+            resource_widget
+        )
+
+    def open_languages(self):
+        layout = self.left_panel.layout()
+
+
+        while layout.count():
+
+            item = layout.takeAt(0)
+
+            widget = item.widget()
+
+            if widget:
+                widget.deleteLater()
+
+
+
+        language_widget = LanguagesWidget()
+
+
+        layout.addWidget(
+            language_widget
+        )
+
+    def open_books(self):
+
+        layout = self.left_panel.layout()
+
+
+        while layout.count():
+
+            item = layout.takeAt(0)
+
+            if item.widget():
+                item.widget().deleteLater()
+
+
+
+        book_widget = BooksWidget()
+
+
+        layout.addWidget(
+            book_widget
+        )
+
+    def setup_books(self):
+        page = self.make_form([
+            ("Title:", QLineEdit()),
+            ("Publisher:", QLineEdit())
+        ])
+        self.stack.addWidget(page)
 
     def setup_authors(self):
         page = self.make_form([
@@ -181,9 +350,6 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-
-    with open(os.path.join(BASE_DIR, "theme.qss"), "r") as f:
-        app.setStyleSheet(f.read())
 
     window = MainWindow()
     window.show()
