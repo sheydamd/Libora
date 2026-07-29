@@ -4,17 +4,14 @@ from PyQt5.QtWidgets import (
     QLabel,
     QPushButton,
     QLineEdit,
-    QFormLayout,
-    QDialog,
-    QMessageBox,
     QHBoxLayout
 )
 
 from PyQt5.QtCore import Qt
 
 from app.api.adapters.genre_data_adapter import GenresDataAdapter
-from app.api.models.genre import Genre
 
+from app.gui.components.add_genre import AddGenreDialog
 
 class GenresWidget(QWidget):
 
@@ -113,72 +110,12 @@ class GenresWidget(QWidget):
 
     def add_genre(self):
 
-        dialog = QDialog(self)
-        dialog.setWindowTitle("Add Genre")
+        dialog = AddGenreDialog(self)
 
-
-        layout = QFormLayout(dialog)
-
-
-        name = QLineEdit()
-
-
-        layout.addRow(
-            "Name",
-            name
-        )
-
-
-        save_btn = QPushButton("Save")
-
-        layout.addWidget(save_btn)
-
-
-
-        def save():
-
-
-            if not name.text():
-
-                QMessageBox.warning(
-                    self,
-                    "Error",
-                    "Name is required."
-                )
-
-                return
-
-
-
-            genre = Genre(
-                name.text()
-            )
-
-
-            GenresDataAdapter.insert(
-                genre
-            )
-
-
-            QMessageBox.information(
-                self,
-                "Success",
-                "Genre added successfully."
-            )
-
+        if dialog.exec_():
 
             self.all_genres = GenresDataAdapter.get_all()
 
             self.show_genres(
                 self.all_genres
             )
-
-
-            dialog.accept()
-
-
-
-        save_btn.clicked.connect(save)
-
-
-        dialog.exec_()

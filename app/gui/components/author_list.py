@@ -4,16 +4,13 @@ from PyQt5.QtWidgets import (
     QLabel,
     QPushButton,
     QLineEdit,
-    QFormLayout,
-    QDialog,
-    QMessageBox,
     QHBoxLayout
 )
 
 from PyQt5.QtCore import Qt
 
 from app.api.adapters.author_data_adapter import AuthorsDataAdapter
-from app.api.models.author import Author
+from app.gui.components.add_author import AddAuthorDialog
 
 
 class AuthorsWidget(QWidget):
@@ -107,75 +104,15 @@ class AuthorsWidget(QWidget):
         self.show_authors(filtered)
 
 
+
     def add_author(self):
 
-        dialog = QDialog(self)
-        dialog.setWindowTitle("+")
+        dialog = AddAuthorDialog(self)
 
-        layout = QFormLayout(dialog)
-
-
-        national_code = QLineEdit()
-        name = QLineEdit()
-        last_name = QLineEdit()
-        birthday = QLineEdit()
-        grade = QLineEdit()
-
-
-        layout.addRow("National Code", national_code)
-        layout.addRow("Name", name)
-        layout.addRow("Last Name", last_name)
-        layout.addRow("Birthday", birthday)
-        layout.addRow("Grade", grade)
-
-
-        save_btn = QPushButton("Save")
-
-        layout.addWidget(save_btn)
-
-
-        def save():
-
-            if (
-                not national_code.text().strip()
-                or not name.text().strip()
-                or not last_name.text().strip()
-                or not birthday.text().strip()
-                or not grade.text().strip()
-            ):
-                QMessageBox.warning(
-                    self,
-                    "Error",
-                    "All fields are required."
-                )
-                return
-
-            author = Author(
-                national_code.text().strip(),
-                name.text().strip(),
-                last_name.text().strip(),
-                birthday.text().strip(),
-                grade.text().strip()
-            )
-
-            AuthorsDataAdapter.insert(author)
-
-            QMessageBox.information(
-                self,
-                "Success",
-                "Author added successfully."
-            )
+        if dialog.exec_():
 
             self.all_authors = AuthorsDataAdapter.get_all()
 
             self.show_authors(
                 self.all_authors
             )
-
-            dialog.accept()
-
-
-        save_btn.clicked.connect(save)
-
-
-        dialog.exec_()

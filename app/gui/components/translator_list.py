@@ -13,8 +13,8 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt
 
 from app.api.adapters.translator_data_adapter import TranslatorsDataAdapter
-from app.api.models.translator import Translator
 
+from app.gui.components.add_translator import AddTranslatorDialog
 
 class TranslatorsWidget(QWidget):
 
@@ -179,125 +179,14 @@ class TranslatorsWidget(QWidget):
             filtered
         )
 
-
-
     def add_translator(self):
 
-        dialog = QDialog(self)
+        dialog = AddTranslatorDialog(self)
 
-        dialog.setWindowTitle(
-            "Add Translator"
-        )
-
-
-        layout = QFormLayout(dialog)
-
-
-
-        national_code = QLineEdit()
-
-        name = QLineEdit()
-
-        last_name = QLineEdit()
-
-        birthday = QLineEdit()
-
-        grade = QLineEdit()
-
-
-
-        layout.addRow(
-            "National Code",
-            national_code
-        )
-
-        layout.addRow(
-            "Name",
-            name
-        )
-
-        layout.addRow(
-            "Last Name",
-            last_name
-        )
-
-        layout.addRow(
-            "Birthday",
-            birthday
-        )
-
-        layout.addRow(
-            "Grade",
-            grade
-        )
-
-
-
-        save_btn = QPushButton(
-            "Save"
-        )
-
-
-        layout.addWidget(
-            save_btn
-        )
-
-
-
-        def save():
-
-
-            if not name.text() or not last_name.text():
-
-                QMessageBox.warning(
-                    self,
-                    "Error",
-                    "Name and Last Name are required."
-                )
-
-                return
-
-
-
-            translator = Translator(
-                national_code.text(),
-                name.text(),
-                last_name.text(),
-                birthday.text(),
-                grade.text()
-            )
-
-
-
-            TranslatorsDataAdapter.insert(
-                translator
-            )
-
-
-
-            QMessageBox.information(
-                self,
-                "Success",
-                "Translator added successfully."
-            )
-
-
+        if dialog.exec_():
 
             self.all_translators = TranslatorsDataAdapter.get_all()
-
 
             self.show_translators(
                 self.all_translators
             )
-
-
-            dialog.accept()
-
-
-
-        save_btn.clicked.connect(
-            save
-        )
-
-
-        dialog.exec_()
