@@ -24,7 +24,7 @@ class EsrbsWidget(QWidget):
         self.layout = QVBoxLayout(self)
 
 
-        # Search 
+        # Search + Add Button
         search_layout = QHBoxLayout()
 
 
@@ -33,13 +33,16 @@ class EsrbsWidget(QWidget):
         self.search_box.textChanged.connect(self.search_esrb)
 
 
-
-
+        add_btn = QPushButton("+")
+        add_btn.setObjectName("addButton")
         
+
+
+        add_btn.clicked.connect(self.add_esrb)
 
 
         search_layout.addWidget(self.search_box)
-        
+        search_layout.addWidget(add_btn)
 
 
         self.layout.addLayout(search_layout)
@@ -149,4 +152,74 @@ class EsrbsWidget(QWidget):
 
 
 
-    
+    def add_esrb(self):
+
+        dialog = QDialog(self)
+
+        dialog.setWindowTitle(
+            "Add ESRB"
+        )
+
+
+        layout = QFormLayout(dialog)
+
+
+
+        name = QLineEdit()
+
+
+        layout.addRow(
+            "Name",
+            name
+        )
+
+
+        save_btn = QPushButton(
+            "Save"
+        )
+
+
+        layout.addWidget(
+            save_btn
+        )
+
+
+
+        def save():
+            try:
+                if not name.text().strip():
+                    QMessageBox.warning(
+                        self,
+                        "Error",
+                        "Name is required."
+                    )
+                    return
+
+                esrb = Esrb(name.text().strip())
+
+                EsrbsDataAdapter.insert(esrb)
+
+                self.all_esrb = EsrbsDataAdapter.get_all()
+                self.show_esrb(self.all_esrb)
+
+                QMessageBox.information(
+                    self,
+                    "Success",
+                    "ESRB added successfully."
+                )
+
+                dialog.accept()
+
+            except Exception as e:
+                print(e)
+                import traceback
+                traceback.print_exc()
+
+
+
+        save_btn.clicked.connect(
+            save
+        )
+
+
+        dialog.exec_()

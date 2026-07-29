@@ -29,9 +29,14 @@ class GenresWidget(QWidget):
         self.search_box.setPlaceholderText("Search genre...")
         self.search_box.textChanged.connect(self.search_genres)
 
+        add_btn = QPushButton("+")
+        add_btn.setObjectName("addButton")
+        
+
+        add_btn.clicked.connect(self.add_genre)
 
         search_layout.addWidget(self.search_box)
-
+        search_layout.addWidget(add_btn)
 
         self.layout.addLayout(search_layout)
 
@@ -105,3 +110,75 @@ class GenresWidget(QWidget):
         self.show_genres(filtered)
 
 
+
+    def add_genre(self):
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle("Add Genre")
+
+
+        layout = QFormLayout(dialog)
+
+
+        name = QLineEdit()
+
+
+        layout.addRow(
+            "Name",
+            name
+        )
+
+
+        save_btn = QPushButton("Save")
+
+        layout.addWidget(save_btn)
+
+
+
+        def save():
+
+
+            if not name.text():
+
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    "Name is required."
+                )
+
+                return
+
+
+
+            genre = Genre(
+                name.text()
+            )
+
+
+            GenresDataAdapter.insert(
+                genre
+            )
+
+
+            QMessageBox.information(
+                self,
+                "Success",
+                "Genre added successfully."
+            )
+
+
+            self.all_genres = GenresDataAdapter.get_all()
+
+            self.show_genres(
+                self.all_genres
+            )
+
+
+            dialog.accept()
+
+
+
+        save_btn.clicked.connect(save)
+
+
+        dialog.exec_()

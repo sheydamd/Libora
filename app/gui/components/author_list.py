@@ -23,7 +23,7 @@ class AuthorsWidget(QWidget):
 
         self.layout = QVBoxLayout(self)
 
-        # Search
+        # Search + Add Button
         search_layout = QHBoxLayout()
 
         self.search_box = QLineEdit()
@@ -31,11 +31,12 @@ class AuthorsWidget(QWidget):
         self.search_box.textChanged.connect(self.search_authors)
 
         add_btn = QPushButton("+")
+        add_btn.setObjectName("addButton")
 
-        
+        add_btn.clicked.connect(self.add_author)
 
         search_layout.addWidget(self.search_box)
-      
+        search_layout.addWidget(add_btn)
 
         self.layout.addLayout(search_layout)
 
@@ -104,3 +105,77 @@ class AuthorsWidget(QWidget):
         ]
 
         self.show_authors(filtered)
+
+
+    def add_author(self):
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle("+")
+
+        layout = QFormLayout(dialog)
+
+
+        national_code = QLineEdit()
+        name = QLineEdit()
+        last_name = QLineEdit()
+        birthday = QLineEdit()
+        grade = QLineEdit()
+
+
+        layout.addRow("National Code", national_code)
+        layout.addRow("Name", name)
+        layout.addRow("Last Name", last_name)
+        layout.addRow("Birthday", birthday)
+        layout.addRow("Grade", grade)
+
+
+        save_btn = QPushButton("Save")
+
+        layout.addWidget(save_btn)
+
+
+        def save():
+
+            if (
+                not national_code.text().strip()
+                or not name.text().strip()
+                or not last_name.text().strip()
+                or not birthday.text().strip()
+                or not grade.text().strip()
+            ):
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    "All fields are required."
+                )
+                return
+
+            author = Author(
+                national_code.text().strip(),
+                name.text().strip(),
+                last_name.text().strip(),
+                birthday.text().strip(),
+                grade.text().strip()
+            )
+
+            AuthorsDataAdapter.insert(author)
+
+            QMessageBox.information(
+                self,
+                "Success",
+                "Author added successfully."
+            )
+
+            self.all_authors = AuthorsDataAdapter.get_all()
+
+            self.show_authors(
+                self.all_authors
+            )
+
+            dialog.accept()
+
+
+        save_btn.clicked.connect(save)
+
+
+        dialog.exec_()

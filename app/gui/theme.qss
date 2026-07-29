@@ -1,0 +1,205 @@
+/* ================= GLOBAL ================= */
+
+QMainWindow {
+    background-color: #f3f3f3;
+}
+
+
+QWidget {
+    background-color: #f3f3f3;
+    color: #333333;
+    font-family: "Segoe UI";
+    font-size: 13px;
+}
+
+
+/* ================= MENU BAR ================= */
+
+QMenuBar {
+    background-color: #ffffff;
+    color: #333333;
+    border-bottom: 1px solid #d0d0d0;
+}
+
+
+QMenuBar::item {
+    padding: 8px 15px;
+}
+
+
+QMenuBar::item:selected {
+    background-color: #e5e5e5;
+}
+
+
+QMenu {
+    background-color: #ffffff;
+    border: 1px solid #d0d0d0;
+}
+
+
+QMenu::item {
+    padding: 8px 25px;
+}
+
+
+QMenu::item:selected {
+    background-color: #dbeeff;
+}
+
+
+/* ================= LEFT ICON BAR ================= */
+
+
+#IconBar {
+
+    background-color:#ffffff;
+
+}
+
+
+QToolButton {
+
+    background: transparent;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+
+}
+
+
+QToolButton:hover {
+
+    background-color:#e8e8e8;
+
+}
+
+
+QToolButton:pressed {
+
+    background-color:#cce8ff;
+
+}
+
+
+
+/* ================= LEFT PANEL ================= */
+
+
+#LeftPanel {
+
+    background-color:#ffffff;
+
+}
+
+
+QPushButton {
+
+    background-color:transparent;
+    color:#333333;
+    text-align:left;
+
+    padding:10px;
+    border-radius:5px;
+
+}
+
+
+QPushButton:hover {
+
+    background-color:#e8e8e8;
+
+}
+
+
+QPushButton:pressed {
+
+    background-color:#cce8ff;
+
+}
+
+
+
+/* ================= CONTENT ================= */
+
+
+#RightPanel {
+
+    background-color:#f3f3f3;
+
+}
+
+
+
+
+/* ================= INPUTS ================= */
+
+
+QLineEdit {
+
+    background-color:#ffffff;
+    border:1px solid #c5c5c5;
+
+    padding:8px;
+    border-radius:5px;
+
+}
+
+
+QLineEdit:focus {
+
+    border:1px solid #0078d4;
+
+}
+
+
+
+
+QCheckBox {
+
+    spacing:8px;
+
+}
+
+
+
+
+/* ================= LABEL ================= */
+
+QLabel {
+
+    color:#333333;
+
+}
+
+
+
+/* ================= SAVE BUTTON ================= */
+
+
+
+
+
+QPushButton#SaveButton{
+                background-color:#2ecc71;
+                color:white;
+                border-radius:5px;
+                padding:8px 15px;
+                font-size:14px;
+            }
+QPushButton#addButton {
+                background-color:#2ecc71;
+                color:white;
+                border-radius:5px;
+                padding:8px 15px;
+                font-size:14px;
+            }
+
+            QPushButton:hover {
+                background-color:#27ae60;
+            }
+
+            QPushButton:pressed {
+                background-color:#1e8449;
+            }
+        

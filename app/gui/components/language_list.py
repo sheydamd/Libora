@@ -24,7 +24,7 @@ class LanguagesWidget(QWidget):
         self.layout = QVBoxLayout(self)
 
 
-        # Search
+        # Search + Add Button
         search_layout = QHBoxLayout()
 
 
@@ -34,14 +34,23 @@ class LanguagesWidget(QWidget):
             self.search_languages
         )
 
+
+        add_btn = QPushButton("+")
+        add_btn.setObjectName("addButton")
         
+
+        add_btn.clicked.connect(
+            self.add_language
+        )
 
 
         search_layout.addWidget(
             self.search_box
         )
 
-        
+        search_layout.addWidget(
+            add_btn
+        )
 
 
         self.layout.addLayout(
@@ -156,3 +165,89 @@ class LanguagesWidget(QWidget):
             filtered
         )
 
+
+
+    def add_language(self):
+
+        dialog = QDialog(self)
+
+        dialog.setWindowTitle(
+            "Add Language"
+        )
+
+
+        layout = QFormLayout(dialog)
+
+
+
+        name = QLineEdit()
+
+
+        layout.addRow(
+            "Name",
+            name
+        )
+
+
+
+        save_btn = QPushButton(
+            "Save"
+        )
+
+
+        layout.addWidget(
+            save_btn
+        )
+
+
+
+        def save():
+
+
+            if not name.text():
+
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    "Name is required."
+                )
+
+                return
+
+
+
+            language = Language(
+                name.text()
+            )
+
+
+            LanguagesDataAdapter.insert(
+                language
+            )
+
+
+
+            QMessageBox.information(
+                self,
+                "Success",
+                "Language added successfully."
+            )
+
+
+
+            self.all_languages = LanguagesDataAdapter.get_all()
+
+
+            self.show_languages(
+                self.all_languages
+            )
+            dialog.accept()
+
+
+
+        save_btn.clicked.connect(
+            save
+        )
+
+
+        dialog.exec_()

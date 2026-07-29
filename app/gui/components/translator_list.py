@@ -24,7 +24,7 @@ class TranslatorsWidget(QWidget):
         self.layout = QVBoxLayout(self)
 
 
-        # Search 
+        # Search + Add Button
         search_layout = QHBoxLayout()
 
 
@@ -35,12 +35,23 @@ class TranslatorsWidget(QWidget):
         )
 
 
+        add_btn = QPushButton("+")
+        add_btn.setObjectName("addButton")
+        
+
+
+        add_btn.clicked.connect(
+            self.add_translator
+        )
 
 
         search_layout.addWidget(
             self.search_box
         )
 
+        search_layout.addWidget(
+            add_btn
+        )
 
 
         self.layout.addLayout(
@@ -167,3 +178,126 @@ class TranslatorsWidget(QWidget):
         self.show_translators(
             filtered
         )
+
+
+
+    def add_translator(self):
+
+        dialog = QDialog(self)
+
+        dialog.setWindowTitle(
+            "Add Translator"
+        )
+
+
+        layout = QFormLayout(dialog)
+
+
+
+        national_code = QLineEdit()
+
+        name = QLineEdit()
+
+        last_name = QLineEdit()
+
+        birthday = QLineEdit()
+
+        grade = QLineEdit()
+
+
+
+        layout.addRow(
+            "National Code",
+            national_code
+        )
+
+        layout.addRow(
+            "Name",
+            name
+        )
+
+        layout.addRow(
+            "Last Name",
+            last_name
+        )
+
+        layout.addRow(
+            "Birthday",
+            birthday
+        )
+
+        layout.addRow(
+            "Grade",
+            grade
+        )
+
+
+
+        save_btn = QPushButton(
+            "Save"
+        )
+
+
+        layout.addWidget(
+            save_btn
+        )
+
+
+
+        def save():
+
+
+            if not name.text() or not last_name.text():
+
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    "Name and Last Name are required."
+                )
+
+                return
+
+
+
+            translator = Translator(
+                national_code.text(),
+                name.text(),
+                last_name.text(),
+                birthday.text(),
+                grade.text()
+            )
+
+
+
+            TranslatorsDataAdapter.insert(
+                translator
+            )
+
+
+
+            QMessageBox.information(
+                self,
+                "Success",
+                "Translator added successfully."
+            )
+
+
+
+            self.all_translators = TranslatorsDataAdapter.get_all()
+
+
+            self.show_translators(
+                self.all_translators
+            )
+
+
+            dialog.accept()
+
+
+
+        save_btn.clicked.connect(
+            save
+        )
+
+
+        dialog.exec_()

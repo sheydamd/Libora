@@ -23,16 +23,21 @@ class PublishersWidget(QWidget):
 
         self.layout = QVBoxLayout(self)
 
-        # Search 
+        # Search + Add Button
         search_layout = QHBoxLayout()
 
         self.search_box = QLineEdit()
         self.search_box.setPlaceholderText("Search publisher...")
         self.search_box.textChanged.connect(self.search_publishers)
 
-     
+        add_btn = QPushButton("+")
+        add_btn.setObjectName("addButton")
+        
+
+        add_btn.clicked.connect(self.add_publisher)
+
         search_layout.addWidget(self.search_box)
-     
+        search_layout.addWidget(add_btn)
 
         self.layout.addLayout(search_layout)
 
@@ -101,3 +106,74 @@ class PublishersWidget(QWidget):
 
         self.show_publishers(filtered)
 
+
+    def add_publisher(self):
+
+        dialog = QDialog(self)
+        dialog.setWindowTitle("+")
+
+        layout = QFormLayout(dialog)
+
+
+        national_code = QLineEdit()
+        name = QLineEdit()
+        last_name = QLineEdit()
+        birthday = QLineEdit()
+        grade = QLineEdit()
+
+
+        layout.addRow("National Code", national_code)
+        layout.addRow("Name", name)
+        layout.addRow("Last Name", last_name)
+        layout.addRow("Birthday", birthday)
+        layout.addRow("Grade", grade)
+
+
+        save_btn = QPushButton("Save")
+
+        layout.addWidget(save_btn)
+
+
+        def save():
+
+            if not name.text() or not last_name.text():
+
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    "Name and Last Name are required."
+                )
+                return
+
+
+            publisher = Publisher(
+                national_code.text(),
+                name.text(),
+                last_name.text(),
+                birthday.text(),
+                grade.text()
+            )
+
+
+            PublishersDataAdapter.insert(publisher)
+
+
+            QMessageBox.information(
+                self,
+                "Success",
+                "Publisher added successfully."
+            )
+
+
+            # Refresh list
+            self.all_publishers =PublishersDataAdapter.get_all()
+            self.show_publishers(self.all_publisher)
+
+
+            dialog.accept()
+
+
+        save_btn.clicked.connect(save)
+
+
+        dialog.exec_()

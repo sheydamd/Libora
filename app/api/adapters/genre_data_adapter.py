@@ -11,7 +11,7 @@ class GenresDataAdapter:
         gen=cur.execute("SELECT * FROM genres").fetchall()
 
         for genrese in gen:
-            genres.append(Genre(genrese[0],genrese[1]))
+            genres.append(Genre(genrese[1],genrese[0]))
         return genres
     @staticmethod
     def insert(genre:Genre)->Genre:

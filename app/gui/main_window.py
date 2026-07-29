@@ -351,6 +351,9 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
 
+    with open(os.path.join(BASE_DIR, "theme.qss"), "r") as f:
+        app.setStyleSheet(f.read())
+
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())

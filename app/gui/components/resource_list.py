@@ -24,7 +24,7 @@ class ResourcesWidget(QWidget):
         self.layout = QVBoxLayout(self)
 
 
-        # Search
+        # Search + Add Button
         search_layout = QHBoxLayout()
 
 
@@ -35,11 +35,23 @@ class ResourcesWidget(QWidget):
         )
 
 
+        add_btn = QPushButton("+")
+        add_btn.setObjectName("addButton")
+        
+
+
+        add_btn.clicked.connect(
+            self.add_resource
+        )
+
 
         search_layout.addWidget(
             self.search_box
         )
 
+        search_layout.addWidget(
+            add_btn
+        )
 
 
         self.layout.addLayout(
@@ -161,3 +173,107 @@ class ResourcesWidget(QWidget):
         )
 
 
+
+    def add_resource(self):
+
+        dialog = QDialog(self)
+
+        dialog.setWindowTitle(
+            "Add Resource"
+        )
+
+
+        layout = QFormLayout(dialog)
+
+
+
+        title = QLineEdit()
+
+        type_ = QLineEdit()
+
+        establish_date = QLineEdit()
+
+
+
+        layout.addRow(
+            "Title",
+            title
+        )
+
+        layout.addRow(
+            "Type",
+            type_
+        )
+
+        layout.addRow(
+            "Establish Date",
+            establish_date
+        )
+
+
+
+        save_btn = QPushButton(
+            "Save"
+        )
+
+
+        layout.addWidget(
+            save_btn
+        )
+
+
+
+        def save():
+
+
+            if not title.text():
+
+                QMessageBox.warning(
+                    self,
+                    "Error",
+                    "Title is required."
+                )
+
+                return
+
+
+
+            resource = Resource(
+                title.text(),
+                type_.text(),establish_date.text()
+            )
+
+
+
+            ResourcesDataAdapter.insert(
+                resource
+            )
+
+
+
+            QMessageBox.information(
+                self,
+                "Success",
+                "Resource added successfully."
+            )
+
+
+
+            self.all_resources = ResourcesDataAdapter.get_all()
+
+
+            self.show_resources(
+                self.all_resources
+            )
+
+
+            dialog.accept()
+
+
+
+        save_btn.clicked.connect(
+            save
+        )
+
+
+        dialog.exec_()

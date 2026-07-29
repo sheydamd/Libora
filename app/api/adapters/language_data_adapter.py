@@ -11,7 +11,7 @@ class LanguagesDataAdapter:
         Langs=cur.execute("SELECT * FROM languages").fetchall()
 
         for Lang in Langs:
-            Languages.append(Language(Lang[0],Lang[1]))
+            Languages.append(Language(Lang[1],Lang[0]))
         return Languages
     @staticmethod
     def insert(language:Language)->Language:
