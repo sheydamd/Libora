@@ -4,16 +4,13 @@ from PyQt5.QtWidgets import (
     QLabel,
     QPushButton,
     QLineEdit,
-    QFormLayout,
-    QDialog,
-    QMessageBox,
     QHBoxLayout
 )
 
 from PyQt5.QtCore import Qt
 
 from app.api.adapters.resources_data_adapter import ResourcesDataAdapter
-from app.api.models.resource import Resource
+from app.gui.components.add_resource import AddResourceDialog
 
 
 class ResourcesWidget(QWidget):
@@ -176,104 +173,12 @@ class ResourcesWidget(QWidget):
 
     def add_resource(self):
 
-        dialog = QDialog(self)
+        dialog = AddResourceDialog(self)
 
-        dialog.setWindowTitle(
-            "Add Resource"
-        )
-
-
-        layout = QFormLayout(dialog)
-
-
-
-        title = QLineEdit()
-
-        type_ = QLineEdit()
-
-        establish_date = QLineEdit()
-
-
-
-        layout.addRow(
-            "Title",
-            title
-        )
-
-        layout.addRow(
-            "Type",
-            type_
-        )
-
-        layout.addRow(
-            "Establish Date",
-            establish_date
-        )
-
-
-
-        save_btn = QPushButton(
-            "Save"
-        )
-
-
-        layout.addWidget(
-            save_btn
-        )
-
-
-
-        def save():
-
-
-            if not title.text():
-
-                QMessageBox.warning(
-                    self,
-                    "Error",
-                    "Title is required."
-                )
-
-                return
-
-
-
-            resource = Resource(
-                title.text(),
-                type_.text(),establish_date.text()
-            )
-
-
-
-            ResourcesDataAdapter.insert(
-                resource
-            )
-
-
-
-            QMessageBox.information(
-                self,
-                "Success",
-                "Resource added successfully."
-            )
-
-
+        if dialog.exec_():
 
             self.all_resources = ResourcesDataAdapter.get_all()
-
 
             self.show_resources(
                 self.all_resources
             )
-
-
-            dialog.accept()
-
-
-
-        save_btn.clicked.connect(
-            save
-        )
-
-
-        dialog.exec_()

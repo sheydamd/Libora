@@ -4,16 +4,13 @@ from PyQt5.QtWidgets import (
     QLabel,
     QPushButton,
     QLineEdit,
-    QFormLayout,
-    QDialog,
-    QMessageBox,
     QHBoxLayout
 )
 
 from PyQt5.QtCore import Qt
-
+from app.gui.components.add_language import AddLanguageDialog
 from app.api.adapters.language_data_adapter import LanguagesDataAdapter
-from app.api.models.language import Language
+
 
 
 class LanguagesWidget(QWidget):
@@ -169,85 +166,12 @@ class LanguagesWidget(QWidget):
 
     def add_language(self):
 
-        dialog = QDialog(self)
+        dialog = AddLanguageDialog(self)
 
-        dialog.setWindowTitle(
-            "Add Language"
-        )
-
-
-        layout = QFormLayout(dialog)
-
-
-
-        name = QLineEdit()
-
-
-        layout.addRow(
-            "Name",
-            name
-        )
-
-
-
-        save_btn = QPushButton(
-            "Save"
-        )
-
-
-        layout.addWidget(
-            save_btn
-        )
-
-
-
-        def save():
-
-
-            if not name.text():
-
-                QMessageBox.warning(
-                    self,
-                    "Error",
-                    "Name is required."
-                )
-
-                return
-
-
-
-            language = Language(
-                name.text()
-            )
-
-
-            LanguagesDataAdapter.insert(
-                language
-            )
-
-
-
-            QMessageBox.information(
-                self,
-                "Success",
-                "Language added successfully."
-            )
-
-
+        if dialog.exec_():
 
             self.all_languages = LanguagesDataAdapter.get_all()
-
 
             self.show_languages(
                 self.all_languages
             )
-            dialog.accept()
-
-
-
-        save_btn.clicked.connect(
-            save
-        )
-
-
-        dialog.exec_()

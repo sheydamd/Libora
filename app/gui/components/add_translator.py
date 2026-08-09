@@ -41,11 +41,6 @@ class AddTranslatorDialog(QDialog):
         )
 
         layout.addRow(
-            "Birthday",
-            self.birthday
-        )
-
-        layout.addRow(
             "Grade",
             self.grade
         )
@@ -63,14 +58,12 @@ class AddTranslatorDialog(QDialog):
         national_code = self.national_code.text().strip()
         name = self.name.text().strip()
         last_name = self.last_name.text().strip()
-        birthday = self.birthday.text().strip()
         grade = self.grade.text().strip()
 
         if not all([
             national_code,
             name,
             last_name,
-            birthday,
             grade
         ]):
 
@@ -88,7 +81,6 @@ class AddTranslatorDialog(QDialog):
                 national_code,
                 name,
                 last_name,
-                birthday,
                 grade
             )
 

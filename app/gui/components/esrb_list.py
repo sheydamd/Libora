@@ -4,16 +4,13 @@ from PyQt5.QtWidgets import (
     QLabel,
     QPushButton,
     QLineEdit,
-    QFormLayout,
-    QDialog,
-    QMessageBox,
     QHBoxLayout
 )
 
 from PyQt5.QtCore import Qt
 
 from app.api.adapters.esrb_data_adapter import EsrbsDataAdapter
-from app.api.models.esrb import Esrb
+from app.gui.components.add_esrb import AddEsrbDialog
 
 
 class EsrbsWidget(QWidget):
@@ -154,72 +151,12 @@ class EsrbsWidget(QWidget):
 
     def add_esrb(self):
 
-        dialog = QDialog(self)
+        dialog = AddEsrbDialog(self)
 
-        dialog.setWindowTitle(
-            "Add ESRB"
-        )
+        if dialog.exec_():
 
+            self.all_esrb = EsrbsDataAdapter.get_all()
 
-        layout = QFormLayout(dialog)
-
-
-
-        name = QLineEdit()
-
-
-        layout.addRow(
-            "Name",
-            name
-        )
-
-
-        save_btn = QPushButton(
-            "Save"
-        )
-
-
-        layout.addWidget(
-            save_btn
-        )
-
-
-
-        def save():
-            try:
-                if not name.text().strip():
-                    QMessageBox.warning(
-                        self,
-                        "Error",
-                        "Name is required."
-                    )
-                    return
-
-                esrb = Esrb(name.text().strip())
-
-                EsrbsDataAdapter.insert(esrb)
-
-                self.all_esrb = EsrbsDataAdapter.get_all()
-                self.show_esrb(self.all_esrb)
-
-                QMessageBox.information(
-                    self,
-                    "Success",
-                    "ESRB added successfully."
-                )
-
-                dialog.accept()
-
-            except Exception as e:
-                print(e)
-                import traceback
-                traceback.print_exc()
-
-
-
-        save_btn.clicked.connect(
-            save
-        )
-
-
-        dialog.exec_()
+            self.show_esrb(
+                self.all_esrb
+            )

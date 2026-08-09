@@ -11,11 +11,11 @@ class TranslatorsDataAdapter:
         transls=cur.execute("SELECT * FROM translators").fetchall()
 
         for transl in transls:
-            translators.append(Translator(transl[0],transl[1],transl[2],transl[3],transl[4]))
+            translators.append(Translator(transl[1],transl[2],transl[3],transl[4],transl[0]))
         return translators
     @staticmethod
     def insert(translator:Translator)->Translator:
-        sql=f"INSERT INTO translators (national_code, name, last_name, birthday, grade) VALUES ('{translator.national_code}','{translator.name}','{translator.last_name}','{translator.birthday}','{translator.grade}')"
+        sql=f"INSERT INTO translators (national_code, name, last_name, grade) VALUES ('{translator.national_code}','{translator.name}','{translator.last_name}','{translator.grade}')"
         cur.execute(sql)
         cn.commit()
         translator.id=cur.lastrowid
