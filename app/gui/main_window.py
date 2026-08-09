@@ -22,9 +22,9 @@ from app.gui.components.esrb_list import EsrbsWidget
 from app.gui.components.genre_list import GenresWidget
 from app.gui.components.resource_list import ResourcesWidget
 from app.gui.components.language_list import LanguagesWidget
-from app.gui.components.book_list import BooksWidget
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
+from app.gui.components.book_list import BooksWidget
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -316,7 +316,6 @@ class MainWindow(QMainWindow):
 
         layout = self.left_panel.layout()
 
-
         while layout.count():
 
             item = layout.takeAt(0)
@@ -324,15 +323,11 @@ class MainWindow(QMainWindow):
             if item.widget():
                 item.widget().deleteLater()
 
-
-
         book_widget = BooksWidget()
-
 
         layout.addWidget(
             book_widget
         )
-
     def setup_books(self):
         page = self.make_form([
             ("Title:", QLineEdit()),

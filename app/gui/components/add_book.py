@@ -16,6 +16,11 @@ from app.api.adapters.book_data_adapter import BooksDataAdapter
 from app.api.adapters.esrb_data_adapter import EsrbsDataAdapter
 from app.api.adapters.publishers_data_adapter import PublishersDataAdapter
 
+from app.gui.components.select_authors import SelectAuthorsDialog
+from app.gui.components.select_translators import SelectTranslatorsDialog
+from app.gui.components.select_genres import SelectGenresDialog
+from app.gui.components.select_languages import SelectLanguagesDialog
+from app.gui.components.select_resources import SelectResourcesDialog
 
 
 class AddBookDialog(QDialog):
