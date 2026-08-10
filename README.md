@@ -8,15 +8,15 @@ The program also has a simple and easy-to-understand interface. Users can search
 In general, Libora is a simple and useful program that helps organize library data and makes it easier to find and manage information.
 
 ## Menu Navigation
-
+https://github.com/user-attachments/assets/dfe06806-0ab7-4111-aaf9-1d2504f1cf74
 The menu is one of the main parts of Libora. It helps the user move between the different sections of the program. From the menu, you can open sections for books, authors, publishers, translators, genres, languages, and other library information.
 
 The menu is designed to be simple, so users do not have to spend a lot of time looking for a specific section. Everything is organized in a clear way, and you can go from one section to another with just a few clicks.
 
 ## Main Workspace
-
+https://github.com/user-attachments/assets/7f501167-66f2-4e99-a4bb-ecdca0fad67e
 The main workspace is the part of the program where most of the work is done. When you choose something from the menu, the main workspace changes and shows the information related to that section.
-
+https://github.com/user-attachments/assets/ca2bc42f-0326-4246-b89e-69ab0a93e4f8
 For example, when you open the Books section, you can see the books in your library and work with their information. If you open the Authors section, you can see and manage the authors instead.
 
 This makes the program easier to use because the screen only shows the information that you need at that moment. You do not have to deal with many different windows or a lot of unnecessary information.
@@ -57,7 +57,7 @@ For example, if you have a large number of books, you do not need to scroll thro
 Adding a new record in Libora is also very simple. Each section has an Add button that can be used to create a new record.
 
 When you click the button, a small window appears with the fields you need to fill in. The fields are different depending on what you are adding.
-
+https://github.com/user-attachments/assets/54d36347-fa4a-47fc-a284-7e9b4e5c200f
 For example, when adding a book, you can enter information about the book. When adding an author, you can enter the author's information instead.
 
 After filling in the information, you can save the record. The new record will then appear in the list.
