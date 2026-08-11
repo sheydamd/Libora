@@ -143,6 +143,9 @@ class BooksWidget(QWidget):
             btn = QPushButton(
                 str(book.name)
             )
+            btn.setObjectName(
+            "bookButton"
+            )
 
             self.list_layout.addWidget(
                 btn
