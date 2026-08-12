@@ -13,7 +13,7 @@ class Book:
     esrb_rating:Esrb=None
     publisher:Publisher=None
     resources:list[Resource]=list()
-    authors:list[Author]=list
+    authors:list[Author]=list()
     translators:list[Translator]=list()
     genres:list[Genre]=list()
     languages:list[Language]=list()

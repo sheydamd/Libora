@@ -30,6 +30,113 @@ class BooksDataAdapter:
             books.append(Book(book[0],book[1],book[2],book[3],book[4],book[5],res,aut,tra,gen,lan))
         
         return books
+    @staticmethod
+    def insert(book: Book) -> Book:
+
+        # Insert book
+        sql = """
+            INSERT INTO books
+            (name, title, description, esrb_rating_id, publisher_id)
+            VALUES (?, ?, ?, ?, ?)
+        """
+
+        cur.execute(
+            sql,
+            (
+                book.name,
+                book.title,
+                book.description,
+                book.esrb_rating.id,
+                book.publisher.id
+            )
+        )
+
+        book.id = cur.lastrowid
+
+
+        # Authors
+        for author in book.authors:
+
+            cur.execute(
+                """
+                INSERT INTO book_author
+                (book_id, author_id)
+                VALUES (?, ?)
+                """,
+                (
+                    book.id,
+                    author.id
+                )
+            )
+
+
+        # Translators
+        for translator in book.translators:
+
+            cur.execute(
+                """
+                INSERT INTO book_translator
+                (book_id, translator_id)
+                VALUES (?, ?)
+                """,
+                (
+                    book.id,
+                    translator.id
+                )
+            )
+
+
+        # Resources
+        for resource in book.resources:
+
+            cur.execute(
+                """
+                INSERT INTO book_resource
+                (book_id, resource_id)
+                VALUES (?, ?)
+                """,
+                (
+                    book.id,
+                    resource.id
+                )
+            )
+
+
+        # Languages
+        for language in book.languages:
+
+            cur.execute(
+                """
+                INSERT INTO book_language
+                (book_id, language_id)
+                VALUES (?, ?)
+                """,
+                (
+                    book.id,
+                    language.id
+                )
+            )
+
+
+        # Genres
+        for genre in book.genres:
+
+            cur.execute(
+                """
+                INSERT INTO book_genre
+                (book_id, genre_id)
+                VALUES (?, ?)
+                """,
+                (
+                    book.id,
+                    genre.id
+                )
+            )
+
+
+        cn.commit()
+
+        return book
     
     @staticmethod
     def delete(id:int)->bool:
