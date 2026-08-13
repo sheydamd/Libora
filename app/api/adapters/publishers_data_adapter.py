@@ -11,7 +11,7 @@ class PublishersDataAdapter:
         puplis=cur.execute("SELECT * FROM publishers").fetchall()
 
         for pupli in puplis:
-            publishers.append(Publisher(pupli[0],pupli[1],pupli[2],pupli[3],pupli[4],pupli[5],pupli[6]))
+            publishers.append(Publisher(pupli[1],pupli[2],pupli[3],pupli[4],pupli[5],pupli[6],pupli[0]))
         return publishers
     @staticmethod
     def insert(publisher:Publisher)->Publisher:
@@ -30,9 +30,9 @@ class PublishersDataAdapter:
     @staticmethod
     def search(name:str):
         publishers=[]
-        auths=cur.execute(f"SELECT * FROM authors  where name like '%{name}%'").fetchall()
-        for auth in auths:
-            publishers.append(Publisher(auth[0],auth[1],auth[2],auth[3],auth[4],auth[5],auth[6]))
+        pubs=cur.execute(f"SELECT * FROM publishers  where name like '%{name}%'").fetchall()
+        for pu in pubs:
+            publishers.append(Publisher(pu[0],pu[1],pu[2],pu[3],pu[4],pu[5],pu[6]))
         return publishers
     @staticmethod
     def update(publisher:Publisher):

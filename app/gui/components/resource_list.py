@@ -90,56 +90,51 @@ class ResourcesWidget(QWidget):
 
         self.clear_list()
 
-
-        title = QLabel(
-            "Resource List"
-        )
+        title = QLabel("Resource List")
 
         title.setAlignment(
             Qt.AlignCenter
         )
 
-
         self.list_layout.addWidget(
             title
         )
 
-
-
         if not resources:
 
-            self.list_layout.addWidget(
-                QLabel("No Resource found")
+            label = QLabel("No Resource found")
+
+            label.setAlignment(
+                Qt.AlignCenter
             )
+
+            self.list_layout.addWidget(
+                label
+            )
+
+            self.list_layout.addStretch()
 
             return
 
-
-
         for resource in resources:
 
-
-            text = f"{resource.title} - {resource.type}"
-
-
             btn = QPushButton(
-                text
+                str(resource.title)
             )
 
+            btn.setObjectName(
+                "resourceButton"
+            )
 
             self.list_layout.addWidget(
                 btn
             )
 
-
         self.list_layout.addStretch()
-
-
 
     def search_resources(self, text):
 
         text = text.lower().strip()
-
 
         if not text:
 
@@ -149,8 +144,6 @@ class ResourcesWidget(QWidget):
 
             return
 
-
-
         filtered = [
 
             resource
@@ -158,12 +151,11 @@ class ResourcesWidget(QWidget):
             for resource in self.all_resources
 
             if (
-                resource.title.lower().startswith(text)
-                or resource.type.lower().startswith(text)
+                text in str(resource.title).lower()
+                or text in str(resource.type).lower()
+                or text in str(resource.establish_date).lower()
             )
-
         ]
-
 
         self.show_resources(
             filtered

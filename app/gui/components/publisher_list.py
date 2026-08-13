@@ -42,9 +42,9 @@ class PublishersWidget(QWidget):
         self.list_layout = QVBoxLayout()
         self.layout.addLayout(self.list_layout)
 
-        self.all_publisher = PublishersDataAdapter.get_all()
+        self.all_publishers = PublishersDataAdapter.get_all()
 
-        self.show_publishers(self.all_publisher)
+        self.show_publishers(self.all_publishers)
 
 
     def clear_list(self):
@@ -57,28 +57,49 @@ class PublishersWidget(QWidget):
                 item.widget().deleteLater()
 
 
-    def show_publishers(self,publishers):
+    def show_publishers(self, publishers):
 
         self.clear_list()
 
         title = QLabel("Publisher List")
-        title.setAlignment(Qt.AlignCenter)
 
-        self.list_layout.addWidget(title)
+        title.setAlignment(
+            Qt.AlignCenter
+        )
+
+        self.list_layout.addWidget(
+            title
+        )
 
         if not publishers:
-            self.list_layout.addWidget(QLabel("No Publisher found"))
-            return
 
+            label = QLabel("No Publisher found")
+
+            label.setAlignment(
+                Qt.AlignCenter
+            )
+
+            self.list_layout.addWidget(
+                label
+            )
+
+            self.list_layout.addStretch()
+
+            return
 
         for publisher in publishers:
 
-            full_name = f"{publisher.name}"
+            btn = QPushButton(
+                str(publisher.name)
+            )
 
-            btn = QPushButton(full_name)
+            btn.setObjectName(
+                "publisherButton"
+            )
 
-            self.list_layout.addWidget(btn)
-
+            self.list_layout.addWidget(
+                btn
+            )
 
         self.list_layout.addStretch()
 
@@ -88,22 +109,26 @@ class PublishersWidget(QWidget):
         text = text.lower().strip()
 
         if not text:
-            self.publishers(self.all_publishers)
+
+            self.show_publishers(
+                self.all_publishers
+            )
+
             return
 
-
         filtered = [
-            Publisher
-            for publisher in self.all_publisher
-            if (
-                publisher.name.lower().startswith(text)
-                or f"{publisher.name}".lower().startswith(text)
-            )
+
+            publisher
+
+            for publisher in self.all_publishers
+
+            if text in publisher.name.lower()
+
         ]
 
-        self.show_publishers(filtered)
-
-
+        self.show_publishers(
+            filtered
+        )
     def add_publisher(self):
 
         dialog = AddPublisherDialog(self)

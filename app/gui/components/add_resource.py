@@ -19,11 +19,23 @@ class AddResourceDialog(QDialog):
 
         layout = QFormLayout(self)
 
-        self.name = QLineEdit()
+        self.title = QLineEdit()
+        self.type = QLineEdit()
+        self.establish_date = QLineEdit()
 
         layout.addRow(
-            "Name",
-            self.name
+            "Title",
+            self.title
+        )
+
+        layout.addRow(
+            "Type",
+            self.type
+        )
+
+        layout.addRow(
+            "Establish Date",
+            self.establish_date
         )
 
         save_btn = QPushButton("Save")
@@ -34,23 +46,30 @@ class AddResourceDialog(QDialog):
             self.save
         )
 
+
     def save(self):
 
-        name = self.name.text().strip()
+        title = self.title.text().strip()
+        resource_type = self.type.text().strip()
+        establish_date = self.establish_date.text().strip()
 
-        if not name:
+        if not title or not resource_type or not establish_date:
 
             QMessageBox.warning(
                 self,
                 "Error",
-                "Name is required."
+                "All fields are required."
             )
 
             return
 
         try:
 
-            resource = Resource(name)
+            resource = Resource(
+                title,
+                resource_type,
+                establish_date
+            )
 
             ResourcesDataAdapter.insert(
                 resource

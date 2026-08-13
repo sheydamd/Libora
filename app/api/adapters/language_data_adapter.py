@@ -15,7 +15,7 @@ class LanguagesDataAdapter:
         return Languages
     @staticmethod
     def insert(language:Language)->Language:
-        sql=f"INSERT INTO esrb_ratings (name) VALUES ('{language.name}')"
+        sql=f"INSERT INTO languages (name) VALUES ('{language.name}')"
         cur.execute(sql)
         cn.commit()
         language.id=cur.lastrowid
@@ -31,9 +31,9 @@ class LanguagesDataAdapter:
     @staticmethod
     def search(name:str):
         languages=[]
-        auths=cur.execute(f"SELECT * FROM authors  where name like '%{name}%'").fetchall()
-        for auth in auths:
-            languages.append(Language(auth[0],auth[1]))
+        langs=cur.execute(f"SELECT * FROM languages  where name like '%{name}%'").fetchall()
+        for lan in langs:
+            languages.append(Language(lan[0],lan[1]))
         return languages
     @staticmethod
     def update(language:Language):

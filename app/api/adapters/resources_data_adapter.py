@@ -11,11 +11,11 @@ class ResourcesDataAdapter:
         resors=cur.execute("SELECT * FROM resources").fetchall()
 
         for resor in resors:
-            resources.append(Resource(resor[0],resor[1],resor[2],resor[3]))
+            resources.append(Resource(resor[1],resor[2],resor[3],resor[0]))
         return resources
     @staticmethod
     def insert(resource:Resource)->Resource:
-        sql=f"INSERT INTO publishers (title, type, establish_date) VALUES ('{resource.title}','{resource.type}','{resource.establish_date}')"
+        sql=f"INSERT INTO resources (title, type, establish_date) VALUES ('{resource.title}','{resource.type}','{resource.establish_date}')"
         cur.execute(sql)
         cn.commit()
         resource.id=cur.lastrowid
@@ -35,8 +35,24 @@ class ResourcesDataAdapter:
             resources.append(Resource(auth[0],auth[1],auth[2],auth[3]))
         return resources
     @staticmethod
-    def update(resources:Resource):
-        cur.execute(f"update resources set name= '{resources.title}'  where id= {resources.id} ")
+    def update(resource: Resource):
+
+        cur.execute(
+            """
+            UPDATE resources
+            SET title = ?,
+                type = ?,
+                establish_date = ?
+            WHERE id = ?
+            """,
+            (
+                resource.title,
+                resource.type,
+                resource.establish_date,
+                resource.id
+            )
+        )
+
         cn.commit()
         print("تغییرات انجام شد.")
 

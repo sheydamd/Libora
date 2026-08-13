@@ -30,9 +30,9 @@ class GenresDataAdapter:
     @staticmethod
     def search(name:str):
         genres=[]
-        auths=cur.execute(f"SELECT * FROM genres  where name like '%{name}%'").fetchall()
-        for auth in auths:
-            genres.append(Genre(auth[0],auth[1]))
+        gunrs=cur.execute(f"SELECT * FROM genres  where name like '%{name}%'").fetchall()
+        for gu in gunrs:
+            genres.append(Genre(gu[0],gu[1]))
         return genres
     @staticmethod
     def update(genre:Genre):
