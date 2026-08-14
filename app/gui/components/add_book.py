@@ -1,26 +1,27 @@
 from PyQt5.QtWidgets import (
     QDialog,
-    QFormLayout,
     QLineEdit,
     QTextEdit,
+    QFormLayout,
     QPushButton,
-    QComboBox,
-    QHBoxLayout,
-    QWidget,
-    QMessageBox
+    QMessageBox,
+    QComboBox
 )
 
-from app.api.models.book import Book
-
 from app.api.adapters.book_data_adapter import BooksDataAdapter
+from app.api.adapters.author_data_adapter import AuthorsDataAdapter
+from app.api.adapters.translator_data_adapter import TranslatorsDataAdapter
+from app.api.adapters.genre_data_adapter import GenresDataAdapter
+from app.api.adapters.language_data_adapter import LanguagesDataAdapter
+from app.api.adapters.resources_data_adapter import ResourcesDataAdapter
 from app.api.adapters.esrb_data_adapter import EsrbsDataAdapter
 from app.api.adapters.publishers_data_adapter import PublishersDataAdapter
 
-from app.gui.components.select_authors import SelectAuthorsDialog
-from app.gui.components.select_translators import SelectTranslatorsDialog
-from app.gui.components.select_genres import SelectGenresDialog
-from app.gui.components.select_languages import SelectLanguagesDialog
-from app.gui.components.select_resources import SelectResourcesDialog
+from app.api.models.book import Book
+
+from app.gui.components.multi_select import (
+    MultiSelectWidget
+)
 
 
 class AddBookDialog(QDialog):
@@ -29,18 +30,25 @@ class AddBookDialog(QDialog):
 
         super().__init__(parent)
 
-        self.setWindowTitle("Add Book")
+        self.setWindowTitle(
+            "Add Book"
+        )
 
-        self.authors = []
-        self.translators = []
-        self.genres = []
-        self.languages = []
-        self.resources = []
+        self.resize(
+            500,
+            650
+        )
 
         layout = QFormLayout(self)
 
+        # ==================================
+        # Basic Information
+        # ==================================
+
         self.name = QLineEdit()
+
         self.title = QLineEdit()
+
         self.description = QTextEdit()
 
         layout.addRow(
@@ -58,229 +66,230 @@ class AddBookDialog(QDialog):
             self.description
         )
 
+        # ==================================
         # ESRB
+        # ==================================
 
-        self.esrb = QComboBox()
+        self.esrbs = (
+            EsrbsDataAdapter.get_all()
+        )
 
-        self.esrbs = EsrbsDataAdapter.get_all()
+        self.esrb_combo = QComboBox()
 
-        self.esrb.addItem(
+        self.esrb_combo.addItem(
             "Select ESRB",
             None
         )
 
         for esrb in self.esrbs:
 
-            self.esrb.addItem(
+            self.esrb_combo.addItem(
                 str(esrb.name),
                 esrb
             )
 
         layout.addRow(
             "ESRB",
-            self.esrb
+            self.esrb_combo
         )
 
+        # ==================================
         # Publisher
+        # ==================================
 
-        self.publisher = QComboBox()
+        self.publishers = (
+            PublishersDataAdapter.get_all()
+        )
 
-        self.publishers = PublishersDataAdapter.get_all()
+        self.publisher_combo = QComboBox()
 
-        self.publisher.addItem(
+        self.publisher_combo.addItem(
             "Select Publisher",
             None
         )
 
         for publisher in self.publishers:
 
-            self.publisher.addItem(
+            self.publisher_combo.addItem(
                 str(publisher.name),
                 publisher
             )
 
         layout.addRow(
             "Publisher",
-            self.publisher
+            self.publisher_combo
         )
 
+        # ==================================
         # Authors
+        # ==================================
 
-        self.author_btn = QPushButton(
-            "Select Authors"
+        self.authors = (
+            AuthorsDataAdapter.get_all()
         )
 
-        self.author_btn.clicked.connect(
-            self.select_authors
+        self.author_select = MultiSelectWidget(
+            self.authors,
+            "Authors",
+            self
         )
 
         layout.addRow(
             "Authors",
-            self.author_btn
+            self.author_select
         )
 
+        # ==================================
         # Translators
+        # ==================================
 
-        self.translator_btn = QPushButton(
-            "Select Translators"
+        self.translators = (
+            TranslatorsDataAdapter.get_all()
         )
 
-        self.translator_btn.clicked.connect(
-            self.select_translators
+        self.translator_select = MultiSelectWidget(
+            self.translators,
+            "Translators",
+            self
         )
 
         layout.addRow(
             "Translators",
-            self.translator_btn
+            self.translator_select
         )
 
+        # ==================================
         # Genres
+        # ==================================
 
-        self.genre_btn = QPushButton(
-            "Select Genres"
+        self.genres = (
+            GenresDataAdapter.get_all()
         )
 
-        self.genre_btn.clicked.connect(
-            self.select_genres
+        self.genre_select = MultiSelectWidget(
+            self.genres,
+            "Genres",
+            self
         )
 
         layout.addRow(
             "Genres",
-            self.genre_btn
+            self.genre_select
         )
 
+        # ==================================
         # Languages
+        # ==================================
 
-        self.language_btn = QPushButton(
-            "Select Languages"
+        self.languages = (
+            LanguagesDataAdapter.get_all()
         )
 
-        self.language_btn.clicked.connect(
-            self.select_languages
+        self.language_select = MultiSelectWidget(
+            self.languages,
+            "Languages",
+            self
         )
 
         layout.addRow(
             "Languages",
-            self.language_btn
+            self.language_select
         )
 
+        # ==================================
         # Resources
+        # ==================================
 
-        self.resource_btn = QPushButton(
-            "Select Resources"
+        self.resources = (
+            ResourcesDataAdapter.get_all()
         )
 
-        self.resource_btn.clicked.connect(
-            self.select_resources
+        self.resource_select = MultiSelectWidget(
+            self.resources,
+            "Resources",
+            self
         )
 
         layout.addRow(
             "Resources",
-            self.resource_btn
+            self.resource_select
         )
 
+        # ==================================
         # Save
+        # ==================================
 
         save_btn = QPushButton(
             "Save"
         )
 
-        layout.addWidget(
-            save_btn
+        save_btn.setObjectName(
+            "saveButton"
         )
 
         save_btn.clicked.connect(
             self.save
         )
 
-
-    def select_authors(self):
-
-        dialog = SelectAuthorsDialog(
-            self.authors,
-            self
+        layout.addRow(
+            save_btn
         )
 
-        if dialog.exec_():
 
-            self.authors = dialog.selected
-
-            self.author_btn.setText(f"{len(self.authors)} selected"
-            )
-
-
-    def select_translators(self):
-
-        dialog = SelectTranslatorsDialog(
-            self.translators,
-            self
-        )
-
-        if dialog.exec_():
-
-            self.translators = dialog.selected
-
-            self.translator_btn.setText(
-                f"{len(self.translators)} selected"
-            )
-
-
-    def select_genres(self):
-
-        dialog = SelectGenresDialog(
-            self.genres,
-            self
-        )
-
-        if dialog.exec_():
-
-            self.genres = dialog.selected
-
-            self.genre_btn.setText(
-                f"{len(self.genres)} selected"
-            )
-
-
-    def select_languages(self):
-
-        dialog = SelectLanguagesDialog(
-            self.languages,
-            self
-        )
-
-        if dialog.exec_():
-
-            self.languages = dialog.selected
-
-            self.language_btn.setText(
-                f"{len(self.languages)} selected"
-            )
-
-
-    def select_resources(self):
-
-        dialog = SelectResourcesDialog(
-            self.resources,
-            self
-        )
-
-        if dialog.exec_():
-
-            self.resources = dialog.selected
-
-            self.resource_btn.setText(
-                f"{len(self.resources)} selected"
-            )
-
+    # ======================================
+    # Save
+    # ======================================
 
     def save(self):
 
         name = self.name.text().strip()
-        title = self.title.text().strip()
-        description = self.description.toPlainText().strip()
 
-        esrb = self.esrb.currentData()
-        publisher = self.publisher.currentData()
+        title = self.title.text().strip()
+
+        description = (
+            self.description
+            .toPlainText()
+            .strip()
+        )
+
+        esrb = (
+            self.esrb_combo
+            .currentData()
+        )
+
+        publisher = (
+            self.publisher_combo
+            .currentData()
+        )
+
+        authors = (
+            self.author_select
+            .get_selected_items()
+        )
+
+        translators = (
+            self.translator_select
+            .get_selected_items()
+        )
+
+        genres = (
+            self.genre_select
+            .get_selected_items()
+        )
+
+        languages = (
+            self.language_select
+            .get_selected_items()
+        )
+
+        resources = (
+            self.resource_select
+            .get_selected_items()
+        )
+
+        # ==================================
+        # Validation
+        # ==================================
 
         if not name:
 
@@ -307,7 +316,7 @@ class AddBookDialog(QDialog):
             QMessageBox.warning(
                 self,
                 "Error",
-                "Please select an ESRB."
+                "Please select ESRB."
             )
 
             return
@@ -317,25 +326,33 @@ class AddBookDialog(QDialog):
             QMessageBox.warning(
                 self,
                 "Error",
-                "Please select a publisher."
+                "Please select Publisher."
             )
 
             return
 
-        try:
+        # ==================================
+        # Create Book
+        # ==================================
 
-            book = Book(
-                name,
-                title,
-                description,
-                esrb,
-                publisher,
-                self.resources,
-                self.authors,
-                self.translators,
-                self.genres,
-                self.languages
-            )
+        book = Book(
+            name,
+            title,
+            description,
+            esrb,
+            publisher,
+            resources,
+            authors,
+            translators,
+            genres,
+            languages
+        )
+
+        # ==================================
+        # Insert
+        # ==================================
+
+        try:
 
             BooksDataAdapter.insert(
                 book
