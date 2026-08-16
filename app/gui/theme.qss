@@ -256,3 +256,47 @@ QPushButton#bookButton:hover {
 QPushButton#bookButton:pressed {
     background-color: #1e8449;
 }
+QLineEdit,
+QTextEdit,
+QComboBox {
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    padding: 7px;
+    background: white;
+}
+
+QLineEdit:focus,
+QTextEdit:focus,
+QComboBox:focus {
+    border: 1px solid #3498db;
+}
+
+QPushButton#selectButton {
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+QPushButton#selectButton:hover {
+    background: #e8e8e8;
+}
+
+
+
+QCheckBox {
+    padding: 7px;
+}
+
+QCheckBox:hover {
+    background: #f2f2f2;
+}
+
+QDialog {
+    background: white;
+}
+
+QScrollArea {
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+}
