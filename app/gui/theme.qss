@@ -177,9 +177,6 @@ QLabel {
 /* ================= SAVE BUTTON ================= */
 
 
-
-
-
 QPushButton#SaveButton{
                 background-color:#2ecc71;
                 color:white;
@@ -187,6 +184,7 @@ QPushButton#SaveButton{
                 padding:8px 15px;
                 font-size:14px;
             }
+
 QPushButton#addButton {
                 background-color:#2ecc71;
                 color:white;
@@ -279,7 +277,7 @@ QPushButton#selectButton {
 }
 
 QPushButton#selectButton:hover {
-    background: #e8e8e8;
+    background: #3498db;
 }
 
 

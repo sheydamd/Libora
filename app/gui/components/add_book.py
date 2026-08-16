@@ -224,7 +224,7 @@ class AddBookDialog(QDialog):
         )
 
         save_btn.setObjectName(
-            "SaveButton"
+            "addButton"
         )
 
         save_btn.clicked.connect(
